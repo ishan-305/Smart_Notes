@@ -1,0 +1,28 @@
+<Button
+          className="rounded-lg font-sans text-black bg-gradient-to-br from-[#AAD9D1] to-[#017373]"
+          onClick={() => router.push("/signup")}
+        >
+          Get Started
+          <ArrowUpRight />
+        </Button>
+
+
+
+        const navItems = [
+    {
+      title: "Home",
+      slug: "/",
+    },
+    {
+      title: "Pricing",
+      slug: "/pricing",
+    },
+    {
+      title: "Support",
+      slug: "/support",
+    },
+    {
+      title: "About Me",
+      slug: "/about-me",
+    },
+  ];
