@@ -1,17 +1,17 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { ArrowUpRight } from "lucide-react";
-import { useRouter } from "next/navigation";
+
 import { ModeToggle } from "../DarkModeToogel";
 import LogoutButton from "../LogoutButton";
 
-const Header: React.FC = () => {
-  const user = null;
-
+import { User } from "@supabase/supabase-js";
+import HeaderWrapper from "./HeaderWrapper";
+interface HeaderProps {
+  user: User | null; // Adjust the type based on your `getUser()` return type
+}
+const Header: React.FC = async () => {
+  const user = await HeaderWrapper();
   return (
     <>
       <header className="flex font-mono text-white justify-between items-center px-[60px] py-[20px] bg-popover shadow-md">
@@ -33,12 +33,12 @@ const Header: React.FC = () => {
           ) : (
             <>
               <Button asChild>
-                <Link href="/auth/signup" className="hidden sm:block">
+                <Link href="/signup" className="hidden sm:block">
                   SignUp
                 </Link>
               </Button>
               <Button asChild variant={"secondary"}>
-                <Link href="/auth/login">Login</Link>
+                <Link href="/login">Login</Link>
               </Button>
             </>
           )}

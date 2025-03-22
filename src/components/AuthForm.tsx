@@ -9,6 +9,8 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import { toast } from "sonner";
+import { loginAction, signupAction } from "@/serverActions/users";
 type Prop = {
   type: "login" | "signup";
 };
@@ -18,7 +20,42 @@ function AuthForm({ type }: Prop) {
   const [isPending, startTransition] = useTransition();
 
   const handleSubmit = (formData: FormData) => {
-    console.log("Form Submitted");
+    startTransition(async () => {
+      const email = formData.get("email");
+      const password = formData.get("password");
+
+      // if (email === null || password === null) {
+      //   // Handle the case where email or password is null
+      //   toast.error("Email and password are required");
+      //   return;
+      // }
+
+      let errorMessage;
+      let title;
+      let description;
+
+      if (isLoginForm) {
+        const result = await loginAction(email as string, password as string);
+        errorMessage =
+          typeof result === "object" ? result.errorMessage : result;
+        title = "Logged In";
+        description = "You have logged in successfully";
+      } else {
+        const result = await signupAction(email as string, password as string);
+
+        errorMessage =
+          typeof result === "object" ? result.errorMessage : result;
+        title = "Signed Up";
+        description = "You have signed up successfully";
+      }
+
+      if (!errorMessage) {
+        toast.success(title);
+        router.replace("/");
+      } else {
+        toast.error(errorMessage);
+      }
+    });
   };
 
   return (
@@ -66,7 +103,7 @@ function AuthForm({ type }: Prop) {
               : "Already a registered user?"}
             {"  "}
             <Link
-              href={isLoginForm ? "/auth/signup" : "/auth/login"}
+              href={isLoginForm ? "/signup" : "/login"}
               className={`text-blue-500 underline ${
                 isPending ? "pointer-events-none opacity-50" : ""
               } `}
