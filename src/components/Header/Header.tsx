@@ -7,6 +7,7 @@ import LogoutButton from "../LogoutButton";
 
 import { User } from "@supabase/supabase-js";
 import HeaderWrapper from "./HeaderWrapper";
+import { shadow } from "@/styles/utils";
 interface HeaderProps {
   user: User | null; // Adjust the type based on your `getUser()` return type
 }
@@ -14,7 +15,12 @@ const Header: React.FC = async () => {
   const user = await HeaderWrapper();
   return (
     <>
-      <header className="flex font-mono text-white justify-between items-center px-[60px] py-[20px] bg-popover shadow-md">
+      <header
+        className="flex font-mono text-white justify-between items-center px-[60px] py-[20px] bg-popover shadow-md"
+        style={{
+          boxShadow: shadow,
+        }}
+      >
         <Link href={"/"}>
           <div className="flex gap-4">
             <Image
