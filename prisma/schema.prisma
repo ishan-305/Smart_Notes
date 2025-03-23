@@ -9,7 +9,7 @@ generator client {
   provider = "prisma-client-js"
 }
 model Note{
-  id        String    @id @default(uuid())
+  id        String    @id 
   text      String
   authorId  String
   author    User      @relation(fields: [authorId] , references: [id])
