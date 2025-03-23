@@ -9,12 +9,16 @@ type Props = {
 };
 export default async function Home({ searchParams }: Props) {
   const noteIdParams = (await searchParams).noteId;
+  console.log(noteIdParams);
+
   const noteId = Array.isArray(noteIdParams)
     ? noteIdParams![0]
     : noteIdParams || "";
 
   const user = await getUser();
 
+  console.log(user);
+  console.log(noteId);
   const note = await prisma.note.findUnique({
     where: {
       id: noteId,

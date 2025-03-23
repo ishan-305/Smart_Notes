@@ -8,10 +8,10 @@ import { PrismaClient } from "@prisma/client";
 export const createNoteAction = async (noteId: string) => {
   const prima = new PrismaClient();
   try {
-    // console.log("Creating Note");
+    console.log("Creating Note");
     const user = await getUser();
 
-    // console.log(user);
+    console.log(user);
 
     if (!user) throw new Error("User not found");
 
@@ -23,7 +23,7 @@ export const createNoteAction = async (noteId: string) => {
       },
     });
 
-    // console.log("Note Created in Actions");
+    console.log("Note Created in Actions");
 
     return { errorMessage: null };
   } catch (error) {
@@ -44,6 +44,21 @@ export const updateNoteAction = async (noteId: string, text: string) => {
       data: {
         text,
       },
+    });
+
+    return { errorMessage: null };
+  } catch (error) {
+    return handleError(error);
+  }
+};
+
+export const deleteNoteAction = async (noteId: string) => {
+  try {
+    const user = await getUser();
+    if (!user) throw new Error("You must be logged in to delete a note");
+
+    await prisma.note.delete({
+      where: { id: noteId, authorId: user.id },
     });
 
     return { errorMessage: null };
