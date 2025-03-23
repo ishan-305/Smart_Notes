@@ -8,6 +8,7 @@ import LogoutButton from "../LogoutButton";
 import { User } from "@supabase/supabase-js";
 import HeaderWrapper from "./HeaderWrapper";
 import { shadow } from "@/styles/utils";
+import { SidebarTrigger } from "../ui/sidebar";
 interface HeaderProps {
   user: User | null; // Adjust the type based on your `getUser()` return type
 }
@@ -19,9 +20,17 @@ const Header: React.FC = async () => {
         className="flex font-mono text-white justify-between items-center px-[60px] py-[20px] bg-popover shadow-md"
         style={{
           boxShadow: shadow,
+          position: "relative",
         }}
       >
-        <Link href={"/"}>
+        <SidebarTrigger
+          className="absolute"
+          style={{
+            top: "10px", // Adjust this value to position the trigger correctly
+            left: "10px", // Adjust this value to position the trigger correctly
+          }}
+        />
+        <Link href={"/"} className="flex items-end gap-2">
           <div className="flex gap-4">
             <Image
               src="\Smart_Notes_icon.svg"

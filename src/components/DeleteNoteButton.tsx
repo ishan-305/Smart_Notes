@@ -33,20 +33,17 @@ function DeleteNoteButton({ noteId, deleteNoteLocally }: Props) {
 
   const handleDeleteNote = () => {
     startTransition(async () => {
-      const errorMessage = (await deleteNoteAction(noteId)) as {
-        errorMessage: null;
-      } | null;
+      const result = await deleteNoteAction(noteId);
 
-      if (!errorMessage) {
-        toast.dismiss("Note Deleted");
+      if (typeof result === "string") toast.error(result);
+      else {
+        toast.success("Note Deleted");
 
         deleteNoteLocally(noteId);
 
         if (noteId === noteIdParam) {
           router.replace("/");
         }
-      } else {
-        toast.error("Error deleting note");
       }
     });
   };
@@ -55,7 +52,7 @@ function DeleteNoteButton({ noteId, deleteNoteLocally }: Props) {
       <AlertDialogTrigger asChild>
         <div className="group">
           <Button
-            className="absolute right-2 top-1/2 size-7 -translate-y-1/2 p-0 opacity-0 [&_svg]:size-3"
+            className="absolute right-2 top-1/2 size-7 -translate-y-1/2 p-0 opacity-100 [&_svg]:size-3"
             variant="ghost"
           >
             <Trash2 />
