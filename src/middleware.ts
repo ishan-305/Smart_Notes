@@ -51,9 +51,7 @@ export async function updateSession(request: NextRequest) {
     } = await supabase.auth.getUser();
 
     if (user) {
-      return NextResponse.redirect(
-        new URL("/", process.env.NEXT_PUBLIC_BASE_URL)
-      );
+      return NextResponse.redirect(new URL("/", request.nextUrl.origin));
     }
   }
 
@@ -66,7 +64,7 @@ export async function updateSession(request: NextRequest) {
 
     if (user) {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/fetch-newest-note?userId=${user.id}`
+        `${request.nextUrl.origin}/api/fetch-newest-note?userId=${user.id}`
       );
 
       const data = await response.json();
@@ -77,7 +75,7 @@ export async function updateSession(request: NextRequest) {
         return NextResponse.redirect(url);
       } else {
         const { noteId } = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/create-new-note?userId=${user.id}`,
+          `${request.nextUrl.origin}/api/create-new-note?userId=${user.id}`,
           {
             method: "POST",
             headers: {
