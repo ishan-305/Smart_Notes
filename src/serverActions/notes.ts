@@ -8,10 +8,7 @@ import { PrismaClient } from "@prisma/client";
 export const createNoteAction = async (noteId: string) => {
   const prima = new PrismaClient();
   try {
-    console.log("Creating Note");
     const user = await getUser();
-
-    console.log(user);
 
     if (!user) throw new Error("User not found");
 
@@ -22,8 +19,6 @@ export const createNoteAction = async (noteId: string) => {
         authorId: user.id,
       },
     });
-
-    console.log("Note Created in Actions");
 
     return { errorMessage: null };
   } catch (error) {
